@@ -6,5 +6,6 @@
   "image": "https://raw.githubusercontent.com/nomideusz/calcom-railway/main/icon.svg",
   "card_desc": "Cal.com: the open-source Calendly alternative. Public booking pages, event types, availability and Google Calendar sync, on your own Postgres.",
   "deploy_marker": "calcom/cal.com:v6.2.0",
-  "id": "dcbe1107-0b83-4555-8dae-9ce15a149650"
+  "id": "dcbe1107-0b83-4555-8dae-9ce15a149650",
+  "published": true
 }
