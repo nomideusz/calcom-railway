@@ -1,6 +1,6 @@
 # Deploy and Host Cal.com on Railway
 
-[![Deploy on Railway](https://railway.com/button.svg)](https://railway.com/new/template/calcom-production?utm_medium=integration&utm_source=button&utm_campaign=calcom-production)
+[![Deploy on Railway](https://railway.com/button.svg)](https://railway.com/new/template/calcom-production?referralCode=sLjDXb&utm_medium=integration&utm_source=button&utm_campaign=calcom-production)
 
 [Cal.com](https://cal.com/) is the open-source Calendly alternative: public booking pages, event types with custom durations and questions, availability schedules, buffer times, Google Calendar and Meet sync, video links, webhooks and embeddable booking widgets. This template runs the official Cal.com image with Postgres, generates every secret for you, and points the app at your Railway domain without rebuilding the image.
 
