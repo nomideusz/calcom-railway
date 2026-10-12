@@ -1,0 +1,175 @@
+{
+  "services": {
+    "9299fc23-fb4d-4566-9d05-691fbcd9eaa2": {
+      "icon": "https://raw.githubusercontent.com/nomideusz/calcom-railway/main/icon.svg",
+      "name": "Cal.com",
+      "build": {},
+      "deploy": {
+        "startCommand": "/bin/sh -c \"scripts/replace-placeholder.sh $BUILT_NEXT_PUBLIC_WEBAPP_URL $NEXT_PUBLIC_WEBAPP_URL && scripts/wait-for-it.sh $DATABASE_HOST -t 120 -- true && npx prisma migrate deploy --schema packages/prisma/schema.prisma && npx ts-node --transpile-only scripts/seed-app-store.ts && cd apps/web && exec /calcom/node_modules/.bin/next start\"",
+        "healthcheckPath": "/api/auth/session",
+        "restartPolicyType": "ON_FAILURE",
+        "restartPolicyMaxRetries": 10
+      },
+      "source": {
+        "image": "calcom/cal.com:v6.2.0"
+      },
+      "networking": {
+        "serviceDomains": {
+          "<hasDomain>": {}
+        }
+      },
+      "volumeMounts": {},
+      "variables": {
+        "PORT": {
+          "defaultValue": "3000",
+          "description": "Port Cal.com listens on - leave as is",
+          "isOptional": false
+        },
+        "HOSTNAME": {
+          "defaultValue": "::",
+          "description": "Listen on IPv6 and IPv4 so Railway's private network can reach it",
+          "isOptional": false
+        },
+        "NEXT_PUBLIC_WEBAPP_URL": {
+          "defaultValue": "https://${{RAILWAY_PUBLIC_DOMAIN}}",
+          "description": "Public URL of Cal.com (booking links, emails, OAuth callbacks). Rewritten into the built app on every boot - set it to your custom domain after adding one",
+          "isOptional": false
+        },
+        "NEXTAUTH_URL": {
+          "defaultValue": "https://${{RAILWAY_PUBLIC_DOMAIN}}",
+          "description": "Sign-in base URL - keep it equal to NEXT_PUBLIC_WEBAPP_URL",
+          "isOptional": false
+        },
+        "NEXTAUTH_SECRET": {
+          "defaultValue": "${{secret(48, \"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789\")}}",
+          "description": "Signs login sessions - changing it logs everyone out",
+          "isOptional": false
+        },
+        "CALENDSO_ENCRYPTION_KEY": {
+          "defaultValue": "${{secret(32, \"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789\")}}",
+          "description": "Encrypts stored calendar and app credentials (exactly 32 characters). BACK IT UP - changing it breaks every connected calendar",
+          "isOptional": false
+        },
+        "DATABASE_URL": {
+          "defaultValue": "postgresql://${{Postgres.POSTGRES_USER}}:${{Postgres.POSTGRES_PASSWORD}}@${{Postgres.RAILWAY_PRIVATE_DOMAIN}}:5432/${{Postgres.POSTGRES_DB}}",
+          "description": "Postgres on the private network",
+          "isOptional": false
+        },
+        "DATABASE_DIRECT_URL": {
+          "defaultValue": "postgresql://${{Postgres.POSTGRES_USER}}:${{Postgres.POSTGRES_PASSWORD}}@${{Postgres.RAILWAY_PRIVATE_DOMAIN}}:5432/${{Postgres.POSTGRES_DB}}",
+          "description": "Postgres for migrations (same database)",
+          "isOptional": false
+        },
+        "DATABASE_HOST": {
+          "defaultValue": "${{Postgres.RAILWAY_PRIVATE_DOMAIN}}:5432",
+          "description": "host:port the start command waits for before migrating",
+          "isOptional": false
+        },
+        "CALCOM_TELEMETRY_DISABLED": {
+          "defaultValue": "1",
+          "description": "Turn off Cal.com's anonymous usage telemetry",
+          "isOptional": false
+        },
+        "RAILWAY_HEALTHCHECK_TIMEOUT_SEC": {
+          "defaultValue": "600",
+          "description": "First boot applies ~590 database migrations and seeds the app store before the health check can pass",
+          "isOptional": false
+        },
+        "EMAIL_FROM": {
+          "defaultValue": "",
+          "description": "Optional sender address for booking confirmations and reminders, e.g. cal@example.com (Railway allows outbound SMTP on Pro only)",
+          "isOptional": true
+        },
+        "EMAIL_FROM_NAME": {
+          "defaultValue": "Cal.com",
+          "description": "Sender name for emails",
+          "isOptional": true
+        },
+        "EMAIL_SERVER_HOST": {
+          "defaultValue": "",
+          "description": "SMTP server",
+          "isOptional": true
+        },
+        "EMAIL_SERVER_PORT": {
+          "defaultValue": "465",
+          "description": "SMTP port (465 implicit TLS, 587 STARTTLS)",
+          "isOptional": true
+        },
+        "EMAIL_SERVER_USER": {
+          "defaultValue": "",
+          "description": "SMTP username",
+          "isOptional": true
+        },
+        "EMAIL_SERVER_PASSWORD": {
+          "defaultValue": "",
+          "description": "SMTP password",
+          "isOptional": true
+        },
+        "GOOGLE_API_CREDENTIALS": {
+          "defaultValue": "",
+          "description": "Optional Google OAuth client JSON for Google Calendar and Meet, e.g. {\"web\":{\"client_id\":\"...\",\"client_secret\":\"...\",\"redirect_uris\":[\"https://YOUR-DOMAIN/api/integrations/googlecalendar/callback\",\"https://YOUR-DOMAIN/api/auth/callback/google\"]}}",
+          "isOptional": true
+        },
+        "GOOGLE_LOGIN_ENABLED": {
+          "defaultValue": "false",
+          "description": "Set to true to show Sign in with Google (needs GOOGLE_API_CREDENTIALS)",
+          "isOptional": true
+        },
+        "CALCOM_LICENSE_KEY": {
+          "defaultValue": "",
+          "description": "Optional Cal.com commercial license key for enterprise features (teams, workflows, insights). Leave empty for the AGPL edition",
+          "isOptional": true
+        }
+      }
+    },
+    "55066bad-9ed0-4327-8ca3-fa2f02742bc2": {
+      "icon": "https://devicons.railway.app/i/postgresql.svg",
+      "name": "Postgres",
+      "build": {},
+      "deploy": {
+        "startCommand": null,
+        "healthcheckPath": null,
+        "restartPolicyType": "ON_FAILURE",
+        "restartPolicyMaxRetries": 10
+      },
+      "source": {
+        "image": "postgres:17.11-alpine"
+      },
+      "networking": {
+        "serviceDomains": {}
+      },
+      "volumeMounts": {
+        "c0328cea-aad6-4075-9009-e160556fccaa": {
+          "mountPath": "/var/lib/postgresql/data"
+        }
+      },
+      "variables": {
+        "POSTGRES_DB": {
+          "defaultValue": "calcom",
+          "description": "Database name",
+          "isOptional": false
+        },
+        "POSTGRES_USER": {
+          "defaultValue": "calcom",
+          "description": "Database user",
+          "isOptional": false
+        },
+        "POSTGRES_PASSWORD": {
+          "defaultValue": "${{secret(32, \"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789\")}}",
+          "description": "Auto-generated database password",
+          "isOptional": false
+        },
+        "PGDATA": {
+          "defaultValue": "/var/lib/postgresql/data/pgdata",
+          "description": "Data subdirectory - keeps Postgres happy on Railway volumes",
+          "isOptional": false
+        },
+        "RAILWAY_DEPLOYMENT_DRAINING_SECONDS": {
+          "defaultValue": "60",
+          "description": "Time for Postgres to shut down cleanly on redeploy",
+          "isOptional": false
+        }
+      }
+    }
+  }
+}

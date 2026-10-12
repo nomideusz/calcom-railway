@@ -1,0 +1,9 @@
+{
+  "name": "Cal.com | Open-Source Calendly Alternative with Postgres",
+  "short_name": "Calcom Production",
+  "description": "Self-hosted scheduling: booking pages, calendar sync and event types",
+  "category": "Other",
+  "image": "https://raw.githubusercontent.com/nomideusz/calcom-railway/main/icon.svg",
+  "card_desc": "Cal.com: the open-source Calendly alternative. Public booking pages, event types, availability and Google Calendar sync, on your own Postgres.",
+  "deploy_marker": "calcom/cal.com:v6.2.0"
+}
