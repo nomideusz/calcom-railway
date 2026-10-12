@@ -52,7 +52,7 @@ The stack is two services: Cal.com and Postgres.
 
 **About versions.** In 2026 Cal.com moved its open-source code to [Cal.diy](https://github.com/calcom/cal.diy) (MIT, enterprise code removed), which publishes no Docker image. `v6.2.0` is the last official Cal.com image and includes the fixes for every Cal.com security advisory published as of October 2026. The template will move to an official Cal.diy image once one is released.
 
-**Resources.** In testing the Cal.com server idled at 520–650 MB of RAM and Postgres at about 40 MB. Next.js runs out of heap at 512 MB, so Cal.com needs the Hobby plan or higher.
+**Resources.** On Railway the Cal.com server used about 730 MB right after first boot and settled around 950 MB once the dashboard and booking pages had been used; Postgres used about 180 MB. Next.js runs out of heap at 512 MB, so Cal.com needs the Hobby plan or higher (it will not run on the Trial plan).
 
 ## Why Deploy Cal.com on Railway?
 
