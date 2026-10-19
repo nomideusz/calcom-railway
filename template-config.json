@@ -1,7 +1,7 @@
 {
   "services": {
     "9299fc23-fb4d-4566-9d05-691fbcd9eaa2": {
-      "icon": "https://raw.githubusercontent.com/nomideusz/calcom-railway/main/icon.svg",
+      "icon": "https://raw.githubusercontent.com/two-workspaces/calcom/main/icon.svg",
       "name": "Cal.com",
       "build": {},
       "deploy": {

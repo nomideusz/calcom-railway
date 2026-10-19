@@ -30,7 +30,7 @@ The stack is two services: Cal.com and Postgres.
 
 - [Cal.com self-hosting documentation](https://cal.com/docs/self-hosting/installation)
 - [Cal.com on GitHub](https://github.com/calcom/cal.diy)
-- [Template source on GitHub](https://github.com/nomideusz/calcom-railway)
+- [Template source on GitHub](https://github.com/two-workspaces/calcom)
 
 ### Implementation Details
 
